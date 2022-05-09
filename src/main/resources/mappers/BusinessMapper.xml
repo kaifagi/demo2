@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.example.demo.dao.BusinessDao">
+	
+	<resultMap id="businessMap" type="Business">
+		<id property="businessId" column="id"/>
+		<result property="businessName" column="busname"/>
+		<result property="businessAddress" column="busaddress"/>
+		<result property="businessTell" column="bustell"/>
+		<result property="businessServertime" column="servertime"/>
+		<result property="businessImageurl" column="imageurl"/>
+		<result property="businessBusexplain" column="busexplain"/>
+	</resultMap>
+
+	<insert id="add">
+		insert into business(busname,busaddress,bustell,servertime,imageurl,busexplain)
+		values (#{businessName},#{businessAddress},#{businessTell},#{businessServertime},#{businessImageurl},#{businessBusexplain})
+	</insert>
+	<update id="update">
+		update business set busname=#{businessName},busaddress=#{businessAddress},bustell=#{businessTell},servertime=#{businessServertime},imageurl=#{businessImageurl},busexplain=#{businessBusexplain}
+        where id=#{businessId}
+	</update>
+
+	<delete id="deleteBatch">
+		delete  from business where  id in 
+<foreach collection="ids" item="id" open="(" close=")" separator=",">
+	#{id}
+</foreach>
+	</delete>
+	<delete id="deleteBusinessById">
+		delete from business where id=#{id}
+	</delete>
+
+	<select id="getBusinessList" resultMap="businessMap">
+		select * from business
+	</select>
+	<select id="getBusinessById" resultMap="businessMap">
+        select * from business where id=#{id}
+	</select>
+</mapper>
